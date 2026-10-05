@@ -149,8 +149,13 @@ export async function deleteObjectFromR2(storageKey: string): Promise<boolean> {
 }
 
 export async function setR2Cors() {
+  const bucket = getBucketName();
+  if (!bucket) {
+    console.error("R2 configuration missing: R2_BUCKET_NAME is not set.");
+    return;
+  }
   const command = new PutBucketCorsCommand({
-    Bucket: BUCKET_NAME,
+    Bucket: bucket,
     CORSConfiguration: {
       CORSRules: [
         {
@@ -168,6 +173,7 @@ export async function setR2Cors() {
   });
 
   try {
+    const r2 = getR2Client();
     await r2.send(command);
     console.log("CORS policy successfully updated on R2 bucket");
   } catch (err) {
