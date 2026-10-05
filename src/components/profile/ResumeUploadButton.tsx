@@ -166,6 +166,9 @@ export function ResumeUploadButton({
           type="file"
           accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           className="hidden"
+          onClick={(e) => {
+            (e.currentTarget as HTMLInputElement).value = "";
+          }}
           onChange={handleFileChange}
           disabled={isPending}
         />
@@ -336,8 +339,12 @@ export function ResumeUploadButton({
               type="button"
               variant="primary"
               size="sm"
-              className="mt-1 font-bold pointer-events-none"
+              className="mt-1 font-bold"
               disabled={isPending}
+              onClick={(e) => {
+                e.stopPropagation();
+                fileInputRef.current?.click();
+              }}
             >
               {isPending && !isDeleting ? "Uploading..." : "Choose File"}
             </Button>
