@@ -89,7 +89,7 @@ export async function uploadResumeAction(formData: FormData) {
     }
 
     revalidatePath("/profile");
-    return { success: true, fileName: file.name };
+    return { success: true, fileName: file.name, fileSize: file.size };
   } catch (error) {
     console.error("Resume upload error:", error);
     return { success: false, error: "An unexpected error occurred" };
